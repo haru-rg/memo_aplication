@@ -10,21 +10,27 @@ file_name = gets.chomp.to_s
 puts "メモしたい内容を記述してください"
 puts "完了したらCtrl+Dを押します"
 
-memo_type = readlines.to_s
+#memo_type = readlines(chomp: true)
+
+
+memo_type = readlines.map &:chomp
 
 if new_add == 1
   new_file_name =file_name
   new_memo_type = memo_type
 
-  File.open("#{new_file_name}.csv", "w") do|f|
-    f.puts("#{new_memo_type}")
+  CSV.open("#{new_file_name}.csv", 'w') do|csv|
+    csv << new_memo_type
   end
 
 elsif new_add == 2
 
   add_file_name = file_name
   add_memo_type = memo_type
- File.open("#{add_file_name}.csv", "a") do |f|
-   f.puts("#{add_memo_type}")
-  end
+ CSV.open("#{add_file_name}.csv", "a") do |csv|
+   csv << add_memo_type
+ end
+else
+  puts "無効な処理です"
+
 end
